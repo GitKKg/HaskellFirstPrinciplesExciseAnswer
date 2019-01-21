@@ -6,15 +6,15 @@ import           System.IO
 -- import           System.Win32.Console
 import           Test.QuickCheck
 
-monoidAssoc :: (Eq m, Monoid m) => m -> m -> m -> Bool
+monoidAssoc :: (Eq m,Semigroup m, Monoid m) => m -> m -> m -> Bool
 monoidAssoc a b c = (a <> (b <> c)) == ((a <> b) <> c)
 
 type C = [Integer]
 
-monoidLeftIdentity :: (Eq m,Monoid m) => m -> Bool
+monoidLeftIdentity :: (Eq m,Semigroup m, Monoid m) => m -> Bool
 monoidLeftIdentity a = (mempty <> a) == a
 
-monoidRightIdentity :: (Eq m, Monoid m) => m -> Bool
+monoidRightIdentity :: (Eq m,Semigroup m,  Monoid m) => m -> Bool
 monoidRightIdentity a = (a <> mempty) == a
 
 data Bull
