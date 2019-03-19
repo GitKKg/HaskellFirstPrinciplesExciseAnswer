@@ -23,7 +23,9 @@ tupled' :: [Char] -> ([Char], [Char])
 tupled' = do
   a <- rev
   b <- cap
-  return (,) a b
+  return ((,) a b)
+  -- return (a,b) --also ok
+  -- return (,) a b -- not ok
   -- below is inspiration for tupleM
   -- fmap ((,) a) (return b)
   
