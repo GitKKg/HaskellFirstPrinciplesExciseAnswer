@@ -39,7 +39,7 @@ instance Functor (Reader r) where
 
 instance Applicative (Reader r) where
   pure :: a -> Reader r a
-  pure a = Reader  (undefined :: (r -> a))
+  pure a = Reader $ const a
   (<*>) :: Reader r (a -> b)
        -> Reader r a
        -> Reader r b
