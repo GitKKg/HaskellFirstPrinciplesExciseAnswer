@@ -30,3 +30,17 @@ instance Applicative (Moi s) where
 instance Monad (Moi s) where
   return a = Moi $ \s -> (a,s)
   (Moi f) >>= g = Moi $ \s -> runMoi (g . fst $ f s) s
+
+
+-- some idea ispired by these exercises, tricky
+-- for not only paralell data with data ,but also function with data
+
+f = (+10)
+h = (+12)
+g = ($ 2)
+p = ($) <$> (f .)  <*> g $ h
+
+main :: IO ()
+main = do
+  print $ runMoi ((+1) <$> (Moi $ \s -> (0, s))) 0
+  print p
