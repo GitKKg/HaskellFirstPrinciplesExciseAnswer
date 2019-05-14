@@ -16,7 +16,7 @@ instance (Functor f, Functor g) =>
 
 instance (Applicative f, Applicative g) =>
          Applicative (Compose f g) where
-  pure :: a -> Compose f g a
+  pure :: a -> Compose f g a -- note : need LANGUAGE InstanceSigs on
   pure a = Compose $ pure (pure a)
   (<*>) :: Compose f g (a -> b)
         -> Compose f g a
@@ -73,10 +73,10 @@ data Quadriceps a b c d =
 instance Bifunctor (Quadriceps a b) where
   bimap f g (Quadzzz a b c d) = Quadzzz a b (f c) (g d)
 
-data Either0 a b =
-  Left0 a
-  | Right0 b
+-- data Either0 a b =
+  -- Left0 a
+  -- | Right0 b
 
-instance Bifunctor Either0 where
-  bimap f g (Left0 a) = Left0 (f a)
-  bimap f g (Right0 b) = Right0 (g b)
+instance Bifunctor Either where
+  bimap f g (Left a) = Left (f a)
+  bimap f g (Right b) = Right (g b)
