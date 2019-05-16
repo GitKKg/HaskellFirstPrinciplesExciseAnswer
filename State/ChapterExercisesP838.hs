@@ -47,11 +47,22 @@ instance Applicative (State s) where
     -- State $ \s -> runState (fmap (fst $ f s) (State g)) s
     -- 4. g s and f s are both only called once at least explicitly
     -- ,but use a of gs as new a is right? just think it as matrix multipication
-    State $ \s -> (,) <$> (fst $ f s) . fst <*> snd $ g s
+    --State $ \s -> (,) <$> (fst $ f s) . fst <*> snd $ g s
+
+    -- inspired by StateT,should be threading state!
+    State $ \s -> do
+    let fas = f s
+    let gas = g (snd fas) -- another question, could be gas first then fas?
+    (fst fas (fst gas), snd gas)
 
 instance Monad (State s) where
   return a = State $ \s -> (a,s)
-  (State f) >>= g = State $ \s -> runState (g . fst $ f s) s
+  --(State f) >>= g = State $ \s -> runState (g . fst $ f s) s
+  -- inspired by StateT, should be threading state!
+  (State f) >>= g = State $ \s -> do
+    let fas = f s
+    runState (g (fst fas)) (snd fas)
+    
   (State f) >> (State g) = State $ \s ->  g (snd $ f s)
 
 main :: IO ()
