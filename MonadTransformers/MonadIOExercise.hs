@@ -92,4 +92,3 @@ instance (MonadIO m) => MonadIO (StateT s m) where
     a <- liftIO ioa
     return (a,s)
   
-    
